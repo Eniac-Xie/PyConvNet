@@ -1,5 +1,5 @@
 # PyConvNet: CNN for Python
-**PyConvNet** is a python toolbox implementing convolutional neural network.
+**PyConvNet** is a python implementation of convolutional neural network.
 
 To train LeNet on MNIST dataset, just do as follow(you may need some python package such as numpy matplotlib):
 
