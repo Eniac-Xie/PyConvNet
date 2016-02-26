@@ -65,3 +65,7 @@ target/
 
 # pyenv
 .python-version
+
+# Ignore everything in this directory 
+* 
+# Except this file !.gitignore 
