@@ -11,6 +11,6 @@ To train cifar-net on cifar dataset, do as follow:
 1. cd code
 2. python cifar_demo.py
 
-This is a brief CNN tutorial (from [Jianxin Wu](http://cs.nju.edu.cn/wujx/)'s personal website):
+This is a brief CNN tutorial (from [Jianxin Wu](http://cs.nju.edu.cn/wujx/)'s homepage):
 
 http://cs.nju.edu.cn/_upload/tpl/00/ed/237/template237/paper/CNN.pdf
