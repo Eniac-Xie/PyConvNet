@@ -22,7 +22,7 @@ else:
     train_data, valid_data, train_labels, valid_labels = load_cifar()
 
 cnn = initial_cifar()
-lr = np.ones(20) * 0.001
+lr = np.logspace(-2, -3, 20)
 cnn.train(train_data, train_labels, lr, epoch=20, batch_size=32)
 
 res = cnn.predict(valid_data)

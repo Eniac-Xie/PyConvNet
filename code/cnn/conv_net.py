@@ -101,8 +101,9 @@ class ConvNet:
                                                     self.layers[idx + 1]['grad'][0])
                 self.layers[idx]['weights'] = self.layers[idx]['weights'] \
                                               - lr * self.layers[idx]['grad'][1]
+                # the learning rate of bias is 2 times of weights'
                 self.layers[idx]['bias'] = self.layers[idx]['bias'] \
-                                              - lr * self.layers[idx]['grad'][2]
+                                              - 2 * lr * self.layers[idx]['grad'][2]
             elif current_layer['type'] == 'max_pooling':
                 pooling_params = {'stride': self.layers[idx]['stride'],
                                   'HF': self.layers[idx]['HF'],

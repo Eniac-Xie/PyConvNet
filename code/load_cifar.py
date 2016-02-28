@@ -71,18 +71,18 @@ def load_cifar():
     valid_data = valid_data.reshape((32, 32, 3, -1))
 
     # # zca whitening
-    print 'zca whitening'
-    train_data = train_data.reshape((3072, -1))
-    valid_data = valid_data.reshape((3072, -1))
-    train_cov = train_data.dot(train_data.T) / train_data.shape[1]
-    D, V = np.linalg.eig(train_cov)
-    # D = D.reshape((-1, 1))
-    # d2 = np.diag(D)
-    en = np.sqrt(np.mean(D))
-    train_data = V.dot(np.diag(en / np.maximum(np.sqrt(D), 10 * np.ones_like(D)))).dot(V.T).dot(train_data)
-    valid_data = V.dot(np.diag(en / np.maximum(np.sqrt(D), 10 * np.ones_like(D)))).dot(V.T).dot(valid_data)
-    train_data = train_data.reshape((32, 32, 3, -1))
-    valid_data = valid_data.reshape((32, 32, 3, -1))
+    # print 'zca whitening'
+    # train_data = train_data.reshape((3072, -1))
+    # valid_data = valid_data.reshape((3072, -1))
+    # train_cov = train_data.dot(train_data.T) / train_data.shape[1]
+    # D, V = np.linalg.eig(train_cov)
+    # # D = D.reshape((-1, 1))
+    # # d2 = np.diag(D)
+    # en = np.sqrt(np.mean(D))
+    # train_data = V.dot(np.diag(en / np.maximum(np.sqrt(D), 10 * np.ones_like(D)))).dot(V.T).dot(train_data)
+    # valid_data = V.dot(np.diag(en / np.maximum(np.sqrt(D), 10 * np.ones_like(D)))).dot(V.T).dot(valid_data)
+    # train_data = train_data.reshape((32, 32, 3, -1))
+    # valid_data = valid_data.reshape((32, 32, 3, -1))
 
     # save to file
     sio.savemat('../data/cifar/cifar.mat', {'train_data': train_data,
