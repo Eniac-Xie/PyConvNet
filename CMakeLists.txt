@@ -36,7 +36,11 @@ find_library(OpenBLAS_LIB NAMES openblas PATHS ${Open_BLAS_LIB_SEARCH_PATHS})
 
 include_directories( include/ )
 
-set(SOURCE_FILES src/main.cpp include/im2col.hpp include/convolution_layer.hpp src/convolution_layer.cpp include/Tensor.hpp include/blas_function.hpp)
+set(SOURCE_FILES src/main.cpp include/im2col.hpp include/convolution_layer.hpp src/convolution_layer.cpp include/Tensor.hpp include/blas_function.hpp src/blas_function.cpp)
+set(TEST_FILES include/im2col.hpp include/convolution_layer.hpp src/convolution_layer.cpp include/Tensor.hpp include/blas_function.hpp src/blas_function.cpp test/test_conv_layer.cpp)
+
 add_executable(PyConvNet ${SOURCE_FILES})
+add_executable(TestConv ${TEST_FILES})
 
 target_link_libraries (PyConvNet ${OpenBLAS_LIB})
+target_link_libraries (TestConv ${OpenBLAS_LIB})
