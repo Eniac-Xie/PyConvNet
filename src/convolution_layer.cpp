@@ -7,11 +7,11 @@
 #include "blas_function.hpp"
 
 void ConvolutionLayer::forward(std::vector<Tensor*>& input,
-                               std::vector<Tensor*>& ouput ) {
+                               std::vector<Tensor*>& output ) {
     Tensor* input_data = input[0];
     Tensor* filter = input[1];
     Tensor* bias = input[2];
-    Tensor* output_data = ouput[0];
+    Tensor* output_data = output[0];
 
     int N_in = input_data->get_N();
     int height_in = input_data->get_H();
@@ -99,10 +99,6 @@ void ConvolutionLayer::backward(std::vector<Tensor*>& input,
                height_in, width_in, channels_in, kernel_h, kernel_w,
                pad_h, pad_w, stride_h, stride_w, input_data_col_ptr);
         // accumulate the gradient each iteration
-//        gemm(CblasNoTrans, CblasTrans, kernel_h * kernel_w * channels_in,
-//             N_filter, height_out * width_out, 1, input_data_col_ptr,
-//             d_output_date_ptr + n * channels_out * height_out * width_out,
-//             1, d_filter->get_data());
         gemm(CblasNoTrans, CblasTrans, N_filter,
              kernel_h * kernel_w * channels_in, height_out * width_out, 1,
              d_output_date_ptr + n * channels_out * height_out * width_out,
