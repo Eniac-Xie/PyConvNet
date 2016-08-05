@@ -40,7 +40,7 @@ void ConvolutionLayer::forward(std::vector<Tensor*>& input,
         im2col(input_data_ptr + n * channels_in * height_in * width_in,
                height_in, width_in, channels_in, kernel_h,
                kernel_w, pad_h, pad_w, stride_h, stride_w, input_data_col);
-        gemm(CblasTrans, CblasNoTrans, N_filter, height_out * width_out,
+        gemm(CblasNoTrans, CblasNoTrans, N_filter, height_out * width_out,
              kernel_h * kernel_w * channels_in, 1, filter->get_data(),
              input_data_col, 0,
              output_data_ptr + n * channels_out * height_out * width_out);
@@ -87,7 +87,7 @@ void ConvolutionLayer::backward(std::vector<Tensor*>& input,
     std::fill(ones_vector, ones_vector + height_out * width_out, 1);
 
     for (int n = 0; n < N_in; n++) {
-        gemm(CblasNoTrans, CblasNoTrans, kernel_h * kernel_w * channels_in,
+        gemm(CblasTrans, CblasNoTrans, kernel_h * kernel_w * channels_in,
              height_out * width_out, N_filter, 1, filter->get_data(),
              d_output_date_ptr + n * channels_out * height_out * width_out,
              0, d_input_data_col_ptr);

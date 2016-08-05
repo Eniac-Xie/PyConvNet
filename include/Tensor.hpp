@@ -6,6 +6,8 @@
 #define PYCONVNET_TENSOR_HPP
 
 # include <iostream>
+# include <cstring>
+
 class Tensor {
 public:
     Tensor(int n, int c, int h, int w) {
@@ -14,6 +16,7 @@ public:
         H = h;
         W = w;
         data = new float[N * C * H * W];
+        memset(data, 0, N * C * H * W * sizeof(float));
     }
     Tensor(const Tensor& T) {
         std::cout<<"Copy Tensor\n";
