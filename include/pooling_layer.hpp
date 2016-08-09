@@ -18,10 +18,10 @@ public:
         max_index_mask.clear();
     };
 
-    void forward(std::vector<Tensor*>& input, std::vector<Tensor*>& output );
-    void backward(std::vector<Tensor*>& input,
-                  std::vector<Tensor*>& d_input,
-                  std::vector<Tensor*>& d_output);
+    void forward(std::vector<Tensor>& input, std::vector<Tensor>& output );
+    void backward(std::vector<Tensor>& input,
+                  std::vector<Tensor>& d_input,
+                  std::vector<Tensor>& d_output);
 
 private:
     int pad_h = 0;

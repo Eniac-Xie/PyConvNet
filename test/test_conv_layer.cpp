@@ -66,10 +66,10 @@ void test_conv_layer() {
     Tensor output_tensor_gndth(100, 32, 8, 8);
     Tensor d_output_tensor(100, 32, 8, 8);
 
-    get_sample_data(input_tensor.get_data(), filter_tensor.get_data(),
-                    bias_tensor.get_data(), output_tensor_gndth.get_data(),
-                    d_input_tensor_gndth.get_data(), d_filter_tensor_gndth.get_data(),
-                    d_bias_tensor_gndth.get_data(), d_output_tensor.get_data());
+    get_sample_data(input_tensor.get_data().get(), filter_tensor.get_data().get(),
+                    bias_tensor.get_data().get(), output_tensor_gndth.get_data().get(),
+                    d_input_tensor_gndth.get_data().get(), d_filter_tensor_gndth.get_data().get(),
+                    d_bias_tensor_gndth.get_data().get(), d_output_tensor.get_data().get());
 
     int pad_h = 2, pad_w = 2, kernel_h = 5,
             kernel_w = 5, stride_h = 2, stride_w = 2;
@@ -77,48 +77,48 @@ void test_conv_layer() {
     ConvolutionLayer L1(pad_h, pad_w,
                         kernel_h, kernel_w,
                         stride_h, stride_w);
-    vector<Tensor*> input_vector, output_vector,
+    vector<Tensor> input_vector, output_vector,
             d_input_vector, d_output_vector;
-    input_vector.push_back(&input_tensor);
-    input_vector.push_back(&filter_tensor);
-    input_vector.push_back(&bias_tensor);
+    input_vector.push_back(input_tensor);
+    input_vector.push_back(filter_tensor);
+    input_vector.push_back(bias_tensor);
 
-    d_input_vector.push_back(&d_input_tensor_pred);
-    d_input_vector.push_back(&d_filter_tensor_pred);
-    d_input_vector.push_back(&d_bias_tensor_pred);
+    d_input_vector.push_back(d_input_tensor_pred);
+    d_input_vector.push_back(d_filter_tensor_pred);
+    d_input_vector.push_back(d_bias_tensor_pred);
 
-    output_vector.push_back(&output_tensor_pred);
-    d_output_vector.push_back(&d_output_tensor);
+    output_vector.push_back(output_tensor_pred);
+    d_output_vector.push_back(d_output_tensor);
 
     L1.forward(input_vector, output_vector);
     L1.backward(input_vector, d_input_vector, d_output_vector);
 
-    if (check_eq(output_tensor_pred.get_data(),
-                 output_tensor_gndth.get_data(), 100*32*8*8)) {
+    if (check_eq(output_tensor_pred.get_data().get(),
+                 output_tensor_gndth.get_data().get(), 100*32*8*8)) {
         cout<<"test successful\n";
     }
     else {
         cout<<"test fail\n";
     }
 
-    if (check_eq(d_input_tensor_pred.get_data(),
-                 d_input_tensor_gndth.get_data(), 100*32*16*16)) {
+    if (check_eq(d_input_tensor_pred.get_data().get(),
+                 d_input_tensor_gndth.get_data().get(), 100*32*16*16)) {
         cout<<"test successful\n";
     }
     else {
         cout<<"test fail\n";
     }
 
-    if (check_eq(d_filter_tensor_pred.get_data(),
-                 d_filter_tensor_gndth.get_data(), 32*32*5*5)) {
+    if (check_eq(d_filter_tensor_pred.get_data().get(),
+                 d_filter_tensor_gndth.get_data().get(), 32*32*5*5)) {
         cout<<"test successful\n";
     }
     else {
         cout<<"test fail\n";
     }
 
-    if (check_eq(d_bias_tensor_pred.get_data(),
-                 d_bias_tensor_gndth.get_data(), 32)) {
+    if (check_eq(d_bias_tensor_pred.get_data().get(),
+                 d_bias_tensor_gndth.get_data().get(), 32)) {
         cout<<"test successful\n";
     }
     else {

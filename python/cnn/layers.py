@@ -1,5 +1,7 @@
 # coding=utf-8
 
+import pylayer
+
 import numpy as np
 from im2col import im2col
 from im2col import col2im
@@ -27,6 +29,64 @@ def conv_forward(x, w, b, params):
     output_col = output_col.reshape((NF, HO, WO, N))
     output_col = output_col.transpose(1, 2, 0, 3)
     return output_col
+
+# def conv_forward(x, w, b, params):
+#     # get convolution parameters
+#     stride = params['stride']
+#     pad = params['pad']
+#     # get input size
+#     H, W, D, N = x.shape
+#     HF, WF, DF, NF = w.shape
+#
+#     _, _, DB, NB = b.shape
+#
+#     stride_h, stride_w = stride, stride
+#     pad_h, pad_w = pad, pad
+#     kernel_h, kernel_w = HF, WF
+#     # check input size
+#     assert D == DF, 'dimension does not work'
+#     assert NF == NB, 'batch size does not work'
+#     # check params
+#     assert (H + 2 * pad - HF) % stride == 0, 'pad and stride do not work'
+#     assert (W + 2 * pad - WF) % stride == 0, 'pad and stride do not work'
+#     # get output size
+#     HO = (H + 2 * pad - HF) / stride + 1
+#     WO = (W + 2 * pad - WF) / stride + 1
+#
+#     # initial data
+#     input_data = x.transpose(3, 2, 0, 1).astype(np.float32)
+#     input_data = input_data.copy(order='C')
+#     input_tensor = pylayer.PyTensor(N, D, H, W)
+#     input_tensor.init_from_numpy(input_data)
+#
+#     filter_data = w.transpose(3, 2, 0, 1).astype(np.float32)
+#     filter_data = filter_data.copy(order='C')
+#     filter_tensor = pylayer.PyTensor(NF, DF, HF, WF)
+#     filter_tensor.init_from_numpy(filter_data)
+#
+#     bias_data = b.transpose(3, 2, 0, 1).astype(np.float32)
+#     bias_data = bias_data.copy(order='C')
+#     bias_tensor = pylayer.PyTensor(NB, 1, 1, 1)
+#     bias_tensor.init_from_numpy(bias_data)
+#
+#     output_data = np.zeros([N, NF, HO, WO], dtype=np.float32)
+#     output_data = output_data.copy(order='C')
+#     output_tensor = pylayer.PyTensor(N, NF, HO, WO)
+#     output_tensor.init_from_numpy(output_data)
+#
+#     input_vec = pylayer.PyTensorVec()
+#     input_vec[:] = [input_tensor, filter_tensor, bias_tensor]
+#
+#     output_vec = pylayer.PyTensorVec()
+#     output_vec[:] = [output_tensor]
+#
+#     L1 = pylayer.PyConvolutionLayer(pad_h, pad_w, kernel_h, kernel_w, stride_h, stride_w)
+#     L1.forward(input_vec, output_vec)
+#
+#     output_vec[0].return_numpy(output_data)
+#     output_data = output_data.transpose(2, 3, 1, 0)
+#     return output_data
+
 
 def conv_backward(x, w, b, conv_param, dout):
     HF, WF, DF, NF = w.shape
