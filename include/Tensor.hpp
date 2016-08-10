@@ -17,11 +17,8 @@ public:
         C = c;
         H = h;
         W = w;
-//        data = new float[N * C * H * W];
-//        memset(data, 0, N * C * H * W * sizeof(float));
     }
     Tensor(const Tensor& T) {
-//        std::cout<<"Copy Tensor\n";
         N = T.get_N();
         C = T.get_C();
         H = T.get_H();
@@ -46,6 +43,9 @@ public:
     int  get_W() const {
         return W;
     }
+    int get_size() const {
+        return N * C * H * W;
+    }
     std::vector<float> get_data_vector() const {
         std::vector<float> data_vector;
         std::copy(data.get(), data.get() + N*C*H*W, data_vector.begin());
@@ -59,11 +59,6 @@ public:
         return std::equal(this->get_data().get(), this->get_data().get() + N * C * H * W,
                           t.get_data().get());
     }
-
-//    ~Tensor() {
-////        std::cout<<"~Tensor"<<std::endl;
-////        delete[] data;
-//    }
 private:
     boost::shared_array<float> data;
     int N, C, H, W;

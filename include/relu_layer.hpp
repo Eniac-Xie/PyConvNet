@@ -3,12 +3,10 @@
 
 # include <vector>
 # include "Tensor.hpp"
+# include "Layer.hpp"
 
-class ReLULayer {
+class ReLULayer: public Layer {
 public:
-    ReLULayer() {
-        // empty
-    }
     void forward(std::vector<Tensor>& input, std::vector<Tensor>& output );
     void backward(std::vector<Tensor>& input,
                   std::vector<Tensor>& d_input,

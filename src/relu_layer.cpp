@@ -31,7 +31,7 @@ void ReLULayer::backward(std::vector<Tensor> &input, std::vector<Tensor> &d_inpu
     int C_in = d_input_data.get_C();
     int H_in = d_input_data.get_H();
     int W_in = d_input_data.get_W();
-    int data_size = N_in * C_in * H_in * W_in;
+    int data_size = d_input_data.get_size();
 
     for(int index = 0; index < data_size; ++index) {
         d_input_data_ptr[index] = input_data_ptr[index] > 0 ? d_output_data_ptr[index] : 0;

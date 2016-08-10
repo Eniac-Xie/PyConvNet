@@ -43,7 +43,7 @@ bool check_eq(float* pred, float* gndth, int size) {
     return true;
 }
 
-void test_pooling_layer() {
+void test_relu_layer() {
     Tensor input_tensor(100, 32, 16, 16);
     Tensor d_input_tensor_pred(100, 32, 16, 16);
     Tensor d_input_tensor_gndth(100, 32, 16, 16);
@@ -86,5 +86,5 @@ void test_pooling_layer() {
 }
 
 int main() {
-    test_pooling_layer();
+    test_relu_layer();
 }

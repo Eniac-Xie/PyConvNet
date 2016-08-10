@@ -3,8 +3,9 @@
 
 # include <Tensor.hpp>
 # include <vector>
+# include "Layer.hpp"
 
-class PoolingLayer {
+class PoolingLayer: public Layer {
 public:
     PoolingLayer(const int pad_h_, const int pad_w_,
                  const int kernel_h_, const int kernel_w_,

@@ -3,8 +3,9 @@
 
 #include <vector>
 #include "Tensor.hpp"
+#include "Layer.hpp"
 
-class ConvolutionLayer {
+class ConvolutionLayer: public Layer {
 public:
     ConvolutionLayer(const int pad_h_, const int pad_w_,
                         const int kernel_h_, const int kernel_w_,
