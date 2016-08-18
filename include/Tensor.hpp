@@ -10,6 +10,8 @@
 # include <vector>
 # include <boost/shared_array.hpp>
 
+# include "blas_function.hpp"
+
 class Tensor {
 public:
     Tensor(int n, int c, int h, int w) : data(new float[n * c * h * w]){
@@ -55,9 +57,23 @@ public:
         return std::equal(this->get_data().get(), this->get_data().get() + N * C * H * W,
            t.get_data().get());
     }
-    bool operator!=( Tensor const& t  ) const {
+    bool operator!=( Tensor const& t ) const {
         return std::equal(this->get_data().get(), this->get_data().get() + N * C * H * W,
                           t.get_data().get());
+    }
+    Tensor operator+(Tensor& t) {
+        vector_add(this->get_data().get(), t.get_data().get(), this->get_data().get(),
+                   this->get_size());
+        return *this;
+    }
+    Tensor operator-(Tensor& t) {
+        vector_sub(this->get_data().get(), t.get_data().get(), this->get_data().get(),
+                   this->get_size());
+        return *this;
+    }
+    Tensor operator*(float mul) {
+        vector_mul_scalar(this->get_data().get(), mul, this->get_size());
+        return *this;
     }
 private:
     boost::shared_array<float> data;

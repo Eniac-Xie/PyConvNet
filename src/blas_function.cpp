@@ -10,7 +10,22 @@ void gemm(const CBLAS_TRANSPOSE TransA, const CBLAS_TRANSPOSE TransB,
                 ldb, beta, C, N);
 }
 
+void vector_add(const float* A, const float* B, float* C, const int vector_size) {
+#pragma omp parallel for
+    for(int i = 0; i < vector_size; ++i) {
+        C[i] = A[i] + B[i];
+    }
+}
+
+void vector_sub(const float* A, const float* B, float* C, const int vector_size) {
+#pragma omp parallel for
+    for(int i = 0; i < vector_size; ++i) {
+        C[i] = A[i] - B[i];
+    }
+}
+
 void vector_mul(const float* A, const float* B, float* C, const int vector_size) {
+#pragma omp parallel for
     for(int i = 0; i < vector_size; ++i) {
         C[i] = A[i] * B[i];
     }
@@ -35,6 +50,13 @@ void vector_div_scalar(float* A, float b, const int vector_size) {
 #pragma omp parallel for
     for (int i = 0; i < vector_size; ++i) {
         A[i] = A[i] / b;
+    }
+}
+
+void vector_mul_scalar(float* A, float b, const int vector_size) {
+#pragma omp parallel for
+    for (int i = 0; i < vector_size; ++i) {
+        A[i] = A[i] * b;
     }
 }
 

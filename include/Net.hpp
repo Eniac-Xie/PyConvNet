@@ -8,14 +8,16 @@
 class Net {
 public:
     Net();
-    void add_layer(Layer& l);
+    void add_layer(Layer* l);
     void forward_net();
     void backward_net();
-    void train();
+    void params_update();
+    void train_batch(Tensor train_data, Tensor train_label);
 private:
-    std::vector<Layer> layers_;
-    std::vector<std::vector<Tensor>> data_;
-    std::vector<std::vector<Tensor>> grads_;
+    std::vector<Layer*> layers_; // n layers
+    std::vector<std::vector<Tensor>> data_; // n+1
+    std::vector<std::vector<Tensor>> grads_; // n+1
+    std::vector<int> params_layer_id;
     float lr;
     float loss;
 };
