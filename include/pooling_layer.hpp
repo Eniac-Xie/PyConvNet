@@ -21,8 +21,7 @@ public:
 
     void forward(std::vector<Tensor>& input, std::vector<Tensor>& output );
     void backward(std::vector<Tensor>& input,
-                  std::vector<Tensor>& d_input,
-                  std::vector<Tensor>& d_output);
+                  std::vector<Tensor>& output);
 
 private:
     int pad_h = 0;

@@ -59,9 +59,9 @@ add_executable(TestPool ${TEST_POOLING_FILES})
 add_executable(TestReLU ${TEST_RELU_FILES})
 add_executable(TestSoftMaxLogLoss ${TEST_SOFTMAX_FILES})
 
-python_add_module(pylayer ${PYTHON_LAYER_FILES})
+#python_add_module(pylayer ${PYTHON_LAYER_FILES})
 
 target_link_libraries (PyConvNet ${OpenBLAS_LIB})
 target_link_libraries (TestConv ${OpenBLAS_LIB})
 target_link_libraries(TestSoftMaxLogLoss ${OpenBLAS_LIB})
-target_link_libraries (pylayer ${OpenBLAS_LIB})
+#target_link_libraries (pylayer ${OpenBLAS_LIB})

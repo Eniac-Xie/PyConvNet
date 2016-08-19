@@ -4,7 +4,7 @@
 
 void LogLoss::forward(std::vector <Tensor> &input, std::vector <Tensor> &output) {
     Tensor input_data(input[0]);
-    Tensor label(input[1]);
+    Tensor label(input[2]);
     Tensor loss(output[0]);
     Tensor output_data(output[1]);
 
@@ -32,11 +32,10 @@ void LogLoss::forward(std::vector <Tensor> &input, std::vector <Tensor> &output)
 }
 
 void LogLoss::backward(std::vector<Tensor> &input,
-                       std::vector<Tensor> &output,
-                       std::vector<Tensor> &d_input) {
+                       std::vector<Tensor> &output) {
     Tensor output_data(output[1]);
-    Tensor label(input[1]);
-    Tensor d_input_data(d_input[0]);
+    Tensor label(input[2]);
+    Tensor d_input_data(input[1]);
 
     float* output_data_ptr = output_data.get_data().get();
     float* label_ptr = label.get_data().get();

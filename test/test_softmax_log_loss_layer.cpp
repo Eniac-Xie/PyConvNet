@@ -64,25 +64,22 @@ void test_softmax_log_loss_layer() {
     SoftmaxLayer L1;
     LogLoss L2;
 
-    vector<Tensor> input_vector, intermediate_vector, output_vector,
-            d_intermediate_vector, d_input_vector;
+    vector<Tensor> input_vector, intermediate_vector, output_vector;
 
     input_vector.push_back(input_tensor);
+    input_vector.push_back(d_input_tensor_pred);
 
     intermediate_vector.push_back(intermediate_tensor);
+    intermediate_vector.push_back(d_intermediate_tensor);
     intermediate_vector.push_back(label_tensor);
-
-    d_intermediate_vector.push_back(d_intermediate_tensor);
-
-    d_input_vector.push_back(d_input_tensor_pred);
 
     output_vector.push_back(loss_pred);
     output_vector.push_back(output_tensor_pred);
 
     L1.forward(input_vector, intermediate_vector);
     L2.forward(intermediate_vector, output_vector);
-    L2.backward(intermediate_vector, output_vector, d_intermediate_vector);
-    L1.backward(intermediate_vector, d_input_vector, d_intermediate_vector);
+    L2.backward(intermediate_vector, output_vector);
+    L1.backward(input_vector, intermediate_vector);
 
     if (check_eq(loss_pred.get_data().get(),
                  loss_gndth.get_data().get(), 1)) {

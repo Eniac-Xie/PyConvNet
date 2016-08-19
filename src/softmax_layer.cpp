@@ -37,12 +37,11 @@ void SoftmaxLayer::forward(std::vector <Tensor> &input, std::vector <Tensor> &ou
     }
 }
 
-void SoftmaxLayer::backward(std::vector<Tensor> &output,
-                            std::vector<Tensor> &d_input,
-                            std::vector<Tensor> &d_output) {
+void SoftmaxLayer::backward(std::vector<Tensor> &input,
+                            std::vector<Tensor> &output) {
+    Tensor d_input_data(input[1]);
     Tensor output_data(output[0]);
-    Tensor d_input_data(d_input[0]);
-    Tensor d_output_data(d_output[0]);
+    Tensor d_output_data(output[1]);
 
     float* output_data_ptr = output_data.get_data().get();
     float* d_input_data_ptr = d_input_data.get_data().get();

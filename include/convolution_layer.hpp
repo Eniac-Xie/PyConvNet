@@ -8,8 +8,13 @@
 class ConvolutionLayer: public Layer {
 public:
     ConvolutionLayer(const int pad_h_, const int pad_w_,
+                     const int filter_num, const int filter_channel,
                         const int kernel_h_, const int kernel_w_,
-                        const int stride_h_, const int stride_w_){
+                        const int stride_h_, const int stride_w_):
+            filter(filter_num, filter_channel, kernel_h_, kernel_w_),
+            bias(filter_num, 1, 1, 1),
+            d_filter(filter_num, filter_channel, kernel_h_, kernel_w_),
+            d_bias(filter_num, 1, 1, 1) {
         pad_h = pad_h_;
         pad_w = pad_w_;
         kernel_h = kernel_h_;
@@ -18,12 +23,27 @@ public:
         stride_w = stride_w_;
 
     };
+    void set_filter(Tensor& f) {
+        filter = f;
+    };
+    void set_bias(Tensor& b) {
+        bias = b;
+    };
+    void set_d_filter(Tensor& d_f) {
+        d_filter = d_f;
+    };
+    void set_d_bias(Tensor& d_b) {
+        d_bias = d_b;
+    };
     void forward(std::vector<Tensor>& input, std::vector<Tensor>& output );
     void backward(std::vector<Tensor>& input,
-                  std::vector<Tensor>& d_input,
-                  std::vector<Tensor>& d_output);
+                  std::vector<Tensor>& output);
 
 private:
+    Tensor filter;
+    Tensor bias;
+    Tensor d_filter;
+    Tensor d_bias;
     int pad_h = 0;
     int pad_w = 0;
     int kernel_h = 0;

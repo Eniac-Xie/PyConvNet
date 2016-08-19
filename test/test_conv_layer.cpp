@@ -71,27 +71,27 @@ void test_conv_layer() {
                     d_input_tensor_gndth.get_data().get(), d_filter_tensor_gndth.get_data().get(),
                     d_bias_tensor_gndth.get_data().get(), d_output_tensor.get_data().get());
 
-    int pad_h = 2, pad_w = 2, kernel_h = 5,
-            kernel_w = 5, stride_h = 2, stride_w = 2;
+    int pad_h = 2, pad_w = 2, filter_num = 32, filter_channel = 32,
+            kernel_h = 5, kernel_w = 5, stride_h = 2, stride_w = 2;
 
     ConvolutionLayer L1(pad_h, pad_w,
+                        filter_num, filter_channel,
                         kernel_h, kernel_w,
                         stride_h, stride_w);
-    vector<Tensor> input_vector, output_vector,
-            d_input_vector, d_output_vector;
-    input_vector.push_back(input_tensor);
-    input_vector.push_back(filter_tensor);
-    input_vector.push_back(bias_tensor);
+    L1.set_filter(filter_tensor);
+    L1.set_bias(bias_tensor);
+    L1.set_d_filter(d_filter_tensor_pred);
+    L1.set_d_bias(d_bias_tensor_pred);
 
-    d_input_vector.push_back(d_input_tensor_pred);
-    d_input_vector.push_back(d_filter_tensor_pred);
-    d_input_vector.push_back(d_bias_tensor_pred);
+    vector<Tensor> input_vector, output_vector;
+    input_vector.push_back(input_tensor);
+    input_vector.push_back(d_input_tensor_pred);
 
     output_vector.push_back(output_tensor_pred);
-    d_output_vector.push_back(d_output_tensor);
+    output_vector.push_back(d_output_tensor);
 
     L1.forward(input_vector, output_vector);
-    L1.backward(input_vector, d_input_vector, d_output_vector);
+    L1.backward(input_vector, output_vector);
 
     if (check_eq(output_tensor_pred.get_data().get(),
                  output_tensor_gndth.get_data().get(), 100*32*8*8)) {

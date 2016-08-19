@@ -55,10 +55,9 @@ void PoolingLayer::forward(std::vector<Tensor> &input, std::vector<Tensor> &outp
     delete[] output_data_index;
 }
 
-void PoolingLayer::backward(std::vector<Tensor> &input, std::vector<Tensor> &d_input,
-                            std::vector<Tensor> &d_output) {
-    Tensor d_input_data(d_input[0]);
-    Tensor d_output_data(d_output[0]);
+void PoolingLayer::backward(std::vector<Tensor> &input, std::vector<Tensor> &output) {
+    Tensor d_input_data(input[1]);
+    Tensor d_output_data(output[1]);
 
     int N_in = d_input_data.get_N();
     int C_in = d_input_data.get_C();

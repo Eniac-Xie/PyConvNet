@@ -60,17 +60,16 @@ void test_pooling_layer() {
     PoolingLayer L1(pad_h, pad_w,
                         kernel_h, kernel_w,
                         stride_h, stride_w);
-    vector<Tensor> input_vector, output_vector,
-            d_input_vector, d_output_vector;
+    vector<Tensor> input_vector, output_vector;
 
     input_vector.push_back(input_tensor);
-    d_input_vector.push_back(d_input_tensor_pred);
+    input_vector.push_back(d_input_tensor_pred);
 
     output_vector.push_back(output_tensor_pred);
-    d_output_vector.push_back(d_output_tensor);
+    output_vector.push_back(d_output_tensor);
 
     L1.forward(input_vector, output_vector);
-    L1.backward(input_vector, d_input_vector, d_output_vector);
+    L1.backward(input_vector, output_vector);
 
     if (check_eq(output_tensor_pred.get_data().get(),
                  output_tensor_gndth.get_data().get(), 100*32*8*8)) {
