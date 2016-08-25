@@ -3,7 +3,7 @@
 
 To train LeNet on MNIST dataset, just do as follow(you may need some python package such as numpy matplotlib):
 
-1. cd code
+1. cd python
 2. python mnist_demo.py
 
 This is a brief CNN tutorial (from [Jianxin Wu](http://cs.nju.edu.cn/wujx/)'s homepage):
