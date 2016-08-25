@@ -43,13 +43,27 @@ set(NUMPY_INCLUDE_DIRS /home/xie/software/anaconda/lib/python2.7/site-packages/n
 
 include_directories( include/ ${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS} ${NUMPY_INCLUDE_DIRS})
 
-set(SOURCE_FILES include/Layer.hpp src/main.cpp include/im2col.hpp include/convolution_layer.hpp src/convolution_layer.cpp include/Tensor.hpp include/blas_function.hpp src/blas_function.cpp include/pooling_layer.hpp src/pooling_layer.cpp include/relu_layer.hpp src/relu_layer.cpp)
-set(PYTHON_LAYER_FILES include/Layer.hpp include/im2col.hpp include/convolution_layer.hpp src/convolution_layer.cpp include/Tensor.hpp include/blas_function.hpp src/blas_function.cpp include/pooling_layer.hpp src/pooling_layer include/relu_layer.hpp src/relu_layer.cpp python/interfaces/layers.cpp)
+set(SOURCE_FILES include/Layer.hpp src/main.cpp include/im2col.hpp include/convolution_layer.hpp
+        src/convolution_layer.cpp include/Tensor.hpp include/blas_function.hpp src/blas_function.cpp
+        include/pooling_layer.hpp src/pooling_layer.cpp include/relu_layer.hpp src/relu_layer.cpp
+        include/softmax_layer.hpp src/softmax_layer.cpp include/log_loss_layer.hpp src/log_loss_layer.cpp
+        include/Net.hpp src/Net.cpp include/rand_function.hpp src/rand_function.cpp)
+set(PYTHON_LAYER_FILES include/Layer.hpp include/im2col.hpp include/convolution_layer.hpp
+        src/convolution_layer.cpp include/Tensor.hpp include/blas_function.hpp src/blas_function.cpp
+        include/pooling_layer.hpp src/pooling_layer include/relu_layer.hpp src/relu_layer.cpp
+        python/interfaces/layers.cpp include/rand_function.hpp src/rand_function.cpp)
 
-set(TEST_CONV_FILES include/Layer.hpp include/im2col.hpp include/convolution_layer.hpp src/convolution_layer.cpp include/Tensor.hpp include/blas_function.hpp src/blas_function.cpp test/test_conv_layer.cpp)
-set(TEST_POOLING_FILES include/Layer.hpp include/Tensor.hpp include/pooling_layer.hpp src/pooling_layer.cpp test/test_pooling_layer.cpp)
-set(TEST_RELU_FILES include/Layer.hpp include/Tensor.hpp  include/relu_layer.hpp src/relu_layer.cpp test/test_relu_layer.cpp)
-set(TEST_SOFTMAX_FILES include/Layer.hpp include/blas_function.hpp src/blas_function.cpp include/Tensor.hpp  include/softmax_layer.hpp src/softmax_layer.cpp include/log_loss_layer.hpp src/log_loss_layer.cpp test/test_softmax_log_loss_layer.cpp)
+set(TEST_CONV_FILES include/Layer.hpp include/im2col.hpp include/convolution_layer.hpp
+        src/convolution_layer.cpp include/Tensor.hpp include/blas_function.hpp src/blas_function.cpp
+        test/test_conv_layer.cpp include/rand_function.hpp src/rand_function.cpp)
+set(TEST_POOLING_FILES include/Layer.hpp include/Tensor.hpp include/pooling_layer.hpp
+        src/pooling_layer.cpp test/test_pooling_layer.cpp include/rand_function.hpp src/rand_function.cpp)
+set(TEST_RELU_FILES include/Layer.hpp include/Tensor.hpp  include/relu_layer.hpp src/relu_layer.cpp
+        test/test_relu_layer.cpp include/rand_function.hpp src/rand_function.cpp)
+set(TEST_SOFTMAX_FILES include/Layer.hpp include/blas_function.hpp src/blas_function.cpp
+        include/Tensor.hpp  include/softmax_layer.hpp src/softmax_layer.cpp
+        include/log_loss_layer.hpp src/log_loss_layer.cpp test/test_softmax_log_loss_layer.cpp
+        include/rand_function.hpp src/rand_function.cpp)
 
 set(EXECUTABLE_OUTPUT_PATH bin/)
 

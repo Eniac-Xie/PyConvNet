@@ -11,10 +11,10 @@ public:
                      const int filter_num, const int filter_channel,
                         const int kernel_h_, const int kernel_w_,
                         const int stride_h_, const int stride_w_):
-            filter(filter_num, filter_channel, kernel_h_, kernel_w_),
-            bias(filter_num, 1, 1, 1),
-            d_filter(filter_num, filter_channel, kernel_h_, kernel_w_),
-            d_bias(filter_num, 1, 1, 1) {
+            filter(filter_num, filter_channel, kernel_h_, kernel_w_, 0.01),
+            bias(filter_num, 1, 1, 1, 0),
+            d_filter(filter_num, filter_channel, kernel_h_, kernel_w_, 0),
+            d_bias(filter_num, 1, 1, 1, 0) {
         pad_h = pad_h_;
         pad_w = pad_w_;
         kernel_h = kernel_h_;
@@ -38,6 +38,7 @@ public:
     void forward(std::vector<Tensor>& input, std::vector<Tensor>& output );
     void backward(std::vector<Tensor>& input,
                   std::vector<Tensor>& output);
+    void params_update(float lr);
 
 private:
     Tensor filter;

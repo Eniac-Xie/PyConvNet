@@ -5,6 +5,7 @@
 
 class LogLoss: public Layer {
 public:
+    void params_update(float lr);
     void forward(std::vector<Tensor>& input, std::vector<Tensor>& output);
     void backward(std::vector<Tensor> &input,
                            std::vector<Tensor> &output);

@@ -6,6 +6,10 @@
 # include "softmax_layer.hpp"
 # include "Tensor.hpp"
 
+void SoftmaxLayer::params_update(float lr) {
+    // empty
+}
+
 void SoftmaxLayer::forward(std::vector <Tensor> &input, std::vector <Tensor> &output) {
     Tensor input_data(input[0]);
     Tensor output_data(output[0]);

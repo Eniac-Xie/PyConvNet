@@ -27,10 +27,14 @@ void read_matrix(const char* filename, float* data) {
 }
 
 void get_sample_data(float* X, float* L, float* Y, float* d_X) {
-    read_matrix("../../test/sample_data/SoftMaxLogLoss/X.csv", X);
-    read_matrix("../../test/sample_data/SoftMaxLogLoss/L.csv", L);
-    read_matrix("../../test/sample_data/SoftMaxLogLoss/Y.csv", Y);
-    read_matrix("../../test/sample_data/SoftMaxLogLoss/d_X.csv", d_X);
+//    read_matrix("../../test/sample_data/SoftMaxLogLoss/X.csv", X);
+//    read_matrix("../../test/sample_data/SoftMaxLogLoss/L.csv", L);
+//    read_matrix("../../test/sample_data/SoftMaxLogLoss/Y.csv", Y);
+//    read_matrix("../../test/sample_data/SoftMaxLogLoss/d_X.csv", d_X);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/SoftMaxLogLoss/X.csv", X);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/SoftMaxLogLoss/L.csv", L);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/SoftMaxLogLoss/Y.csv", Y);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/SoftMaxLogLoss/d_X.csv", d_X);
 }
 
 bool check_eq(float* pred, float* gndth, int size) {

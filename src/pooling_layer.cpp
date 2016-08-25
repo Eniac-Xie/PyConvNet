@@ -3,6 +3,10 @@
 # include <vector>
 # include <cstring>
 
+void PoolingLayer::params_update(float lr) {
+    // empty
+}
+
 void PoolingLayer::forward(std::vector<Tensor> &input, std::vector<Tensor> &output) {
     Tensor input_data(input[0]);
     Tensor output_data(output[0]);
@@ -19,8 +23,8 @@ void PoolingLayer::forward(std::vector<Tensor> &input, std::vector<Tensor> &outp
 
     float* input_data_ptr = input_data.get_data().get();
     float* output_data_ptr = output_data.get_data().get();
-    float* output_data_index = new float[N_out * C_out * H_out * W_out];
-
+    int* output_data_index = new int[N_out * C_out * H_out * W_out];
+    memset(output_data_index, 0, sizeof(int) * N_out * C_out * H_out * W_out);
     for (int n = 0; n < N_in; ++n) {
         for(int c = 0; c < C_in; ++c) {
             for(int h = -pad_h; h < H_in + pad_h - kernel_h; h += stride_h) {
@@ -37,7 +41,7 @@ void PoolingLayer::forward(std::vector<Tensor> &input, std::vector<Tensor> &outp
                             }
                             int bias_pos = bias_h * W_in + bias_w;
                             if(input_data_ptr[base_pos + bias_pos] > current_max) {
-                                max_index = bias_h * W_in + bias_w;
+                                max_index = bias_pos;
                                 current_max = input_data_ptr[base_pos + bias_pos];
                             }
                         }
@@ -51,7 +55,7 @@ void PoolingLayer::forward(std::vector<Tensor> &input, std::vector<Tensor> &outp
             }
         }
     }
-    max_index_mask.assign(output_data_index, output_data_index + N_out * C_out * H_out * W_out);
+    this->max_index_mask.assign(output_data_index, output_data_index + N_out * C_out * H_out * W_out);
     delete[] output_data_index;
 }
 
@@ -80,7 +84,7 @@ void PoolingLayer::backward(std::vector<Tensor> &input, std::vector<Tensor> &out
                     int original_base_pos = n * C_in * H_in * W_in +
                         c * H_in * W_in + (h * stride_h - pad_h) * H_in +
                             w * stride_w - pad_w;
-                    int original_bias_pos = max_index_mask[n * C_out * H_out * W_out +
+                    int original_bias_pos = this->max_index_mask[n * C_out * H_out * W_out +
                         c * H_out * W_out + h * W_out + w];
                     d_input_data_ptr[original_base_pos + original_bias_pos] +=
                     d_output_data_ptr[n * C_out * H_out * W_out +

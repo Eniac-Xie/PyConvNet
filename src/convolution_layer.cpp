@@ -107,3 +107,8 @@ void ConvolutionLayer::backward(std::vector<Tensor>& input,
     delete[] input_data_col_ptr;
     delete[] ones_vector;
 }
+
+void ConvolutionLayer::params_update(float lr) {
+    this->filter.add_Tensor(this->d_filter, -lr);
+    this->bias.add_Tensor(this->d_bias, -2 * lr);
+}

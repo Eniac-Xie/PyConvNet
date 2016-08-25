@@ -1,7 +1,3 @@
-//
-// Created by xie on 16-8-3.
-//
-
 #ifndef PYCONVNET_TENSOR_HPP
 #define PYCONVNET_TENSOR_HPP
 
@@ -11,16 +7,23 @@
 # include <boost/shared_array.hpp>
 
 # include "blas_function.hpp"
+# include "rand_function.hpp"
 
 class Tensor {
 public:
-    Tensor(int n, int c, int h, int w) : data(new float[n * c * h * w]){
+    Tensor(int n, int c, int h, int w, float std) : data(new float[n * c * h * w]){
         N = n;
         C = c;
         H = h;
         W = w;
+        if(std == 0) {
+            memset(data.get(), 0, sizeof(float) * N * C * H * W);
+        } else {
+            gaussrand(0, std, data.get(), N*C*H*W);
+        }
     }
     Tensor(const Tensor& T) {
+//        std::cout << "Tensor copy constructor" << std::endl;
         N = T.get_N();
         C = T.get_C();
         H = T.get_H();
@@ -48,11 +51,18 @@ public:
     int get_size() const {
         return N * C * H * W;
     }
-    std::vector<float> get_data_vector() const {
-        std::vector<float> data_vector;
-        std::copy(data.get(), data.get() + N*C*H*W, data_vector.begin());
-        return data_vector;
+//    std::vector<float> get_data_vector() const {
+//        std::vector<float> data_vector;
+//        std::copy(data.get(), data.get() + N*C*H*W, data_vector.begin());
+//        return data_vector;
+//    }
+    void add_Tensor(Tensor& t, const float coeff) {
+        vector_add(this->get_data().get(), t.get_data().get(), this->get_data().get(),
+                   coeff, this->get_size());
     }
+//    void multi_float(float f) {
+//        vector_mul_scalar(this->get_data().get(), f, this->get_size());
+//    }
     bool operator==( Tensor const& t ) const {
         return std::equal(this->get_data().get(), this->get_data().get() + N * C * H * W,
            t.get_data().get());
@@ -61,20 +71,30 @@ public:
         return std::equal(this->get_data().get(), this->get_data().get() + N * C * H * W,
                           t.get_data().get());
     }
-    Tensor operator+(Tensor& t) {
-        vector_add(this->get_data().get(), t.get_data().get(), this->get_data().get(),
-                   this->get_size());
+    Tensor& operator=(Tensor const& t) {
+        if(this != &t) {
+            this->N = t.N;
+            this->C = t.C;
+            this->H = t.H;
+            this->W = t.W;
+            this->data = t.get_data();
+        }
         return *this;
     }
-    Tensor operator-(Tensor& t) {
-        vector_sub(this->get_data().get(), t.get_data().get(), this->get_data().get(),
-                   this->get_size());
-        return *this;
-    }
-    Tensor operator*(float mul) {
-        vector_mul_scalar(this->get_data().get(), mul, this->get_size());
-        return *this;
-    }
+//    Tensor operator+(Tensor& t) {
+//        vector_add(this->get_data().get(), t.get_data().get(), this->get_data().get(),
+//                   this->get_size());
+//        return *this;
+//    }
+//    Tensor operator-(Tensor& t) {
+//        vector_sub(this->get_data().get(), t.get_data().get(), this->get_data().get(),
+//                   this->get_size());
+//        return *this;
+//    }
+//    Tensor operator*(float mul) {
+//        vector_mul_scalar(this->get_data().get(), mul, this->get_size());
+//        return *this;
+//    }
 private:
     boost::shared_array<float> data;
     int N, C, H, W;

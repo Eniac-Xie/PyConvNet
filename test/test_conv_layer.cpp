@@ -29,14 +29,22 @@ void read_matrix(const char* filename, float* data) {
 
 void get_sample_data(float* X, float* F, float* B, float* Y,
     float* d_X, float* d_F, float* d_B, float* d_Y) {
-    read_matrix("../../test/sample_data/Conv/X.csv", X);
-    read_matrix("../../test/sample_data/Conv/F.csv", F);
-    read_matrix("../../test/sample_data/Conv/B.csv", B);
-    read_matrix("../../test/sample_data/Conv/Y.csv", Y);
-    read_matrix("../../test/sample_data/Conv/d_X.csv", d_X);
-    read_matrix("../../test/sample_data/Conv/d_F.csv", d_F);
-    read_matrix("../../test/sample_data/Conv/d_B.csv", d_B);
-    read_matrix("../../test/sample_data/Conv/d_Y.csv", d_Y);
+//    read_matrix("../../test/sample_data/Conv/X.csv", X);
+//    read_matrix("../../test/sample_data/Conv/F.csv", F);
+//    read_matrix("../../test/sample_data/Conv/B.csv", B);
+//    read_matrix("../../test/sample_data/Conv/Y.csv", Y);
+//    read_matrix("../../test/sample_data/Conv/d_X.csv", d_X);
+//    read_matrix("../../test/sample_data/Conv/d_F.csv", d_F);
+//    read_matrix("../../test/sample_data/Conv/d_B.csv", d_B);
+//    read_matrix("../../test/sample_data/Conv/d_Y.csv", d_Y);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/Conv/X.csv", X);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/Conv/F.csv", F);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/Conv/B.csv", B);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/Conv/Y.csv", Y);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/Conv/d_X.csv", d_X);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/Conv/d_F.csv", d_F);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/Conv/d_B.csv", d_B);
+    read_matrix("/home/xie/code/PyConvNet/test/sample_data/Conv/d_Y.csv", d_Y);
 }
 
 bool check_eq(float* pred, float* gndth, int size) {

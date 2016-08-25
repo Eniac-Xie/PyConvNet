@@ -10,10 +10,10 @@ void gemm(const CBLAS_TRANSPOSE TransA, const CBLAS_TRANSPOSE TransB,
                 ldb, beta, C, N);
 }
 
-void vector_add(const float* A, const float* B, float* C, const int vector_size) {
+void vector_add(const float* A, const float* B, float* C, const float coeff, const int vector_size) {
 #pragma omp parallel for
     for(int i = 0; i < vector_size; ++i) {
-        C[i] = A[i] + B[i];
+        C[i] = A[i] + B[i] * coeff;
     }
 }
 

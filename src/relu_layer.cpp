@@ -1,5 +1,9 @@
 # include "relu_layer.hpp"
 
+void ReLULayer::params_update(float lr) {
+    // empty
+}
+
 void ReLULayer::forward(std::vector<Tensor> &input, std::vector<Tensor> &output) {
     Tensor input_data(input[0]);
     Tensor output_data(output[0]);

@@ -9,7 +9,8 @@ void gemm(const CBLAS_TRANSPOSE TransA, const CBLAS_TRANSPOSE TransB,
           const int M, const int N, const int K, const float alpha,
           const float* A, const float* B, const float beta, float* C);
 
-void vector_add(const float* A, const float* B, float* C, const int vector_size);
+void vector_add(const float* A, const float* B, float* C, const float coeff,
+                const int vector_size);
 
 void vector_sub(const float* A, const float* B, float* C, const int vector_size);
 

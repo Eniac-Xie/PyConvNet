@@ -1,7 +1,12 @@
 # include <algorithm>
 # include <cmath>
+# include <iostream>
+
 # include "log_loss_layer.hpp"
 
+void LogLoss::params_update(float lr) {
+    // empty
+}
 void LogLoss::forward(std::vector <Tensor> &input, std::vector <Tensor> &output) {
     Tensor input_data(input[0]);
     Tensor label(input[2]);
@@ -25,8 +30,8 @@ void LogLoss::forward(std::vector <Tensor> &input, std::vector <Tensor> &output)
     assert(W_in == 1 && H_in == 1);
 
     for( int n = 0; n < N_in; ++n) {
-        float gndth_prob = -logf(*(input_data_ptr + n * size_in + (int)( label_ptr[n])));
-        output_data_ptr[n] = *(input_data_ptr + n * size_in + (int)( label_ptr[n]));
+        float gndth_prob = -logf(*(input_data_ptr + n * size_in + (int)(label_ptr[n])));
+        output_data_ptr[n] = *(input_data_ptr + n * size_in + (int)(label_ptr[n]));
         loss_ptr[0] += gndth_prob;
     }
 }
