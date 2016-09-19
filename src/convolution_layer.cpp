@@ -109,6 +109,9 @@ void ConvolutionLayer::backward(std::vector<Tensor>& input,
 }
 
 void ConvolutionLayer::params_update(float lr) {
+    vector_scale(this->d_filter.get_data().get(), this->d_filter.get_size());
+    vector_scale(this->d_bias.get_data().get(), this->d_bias.get_size());
+
     this->pre_update_f.add_Tensor(this->d_filter, 0.9, -lr);
     this->filter.add_Tensor(this->pre_update_f, 1, 1);
     this->pre_update_b.add_Tensor(this->d_bias, 0.9, -2 * lr);
