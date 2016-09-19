@@ -2,6 +2,7 @@
 # include <fstream>
 # include <cstring>
 # include <boost/shared_array.hpp>
+#include <sys/timeb.h>
 
 # include "Layer.hpp"
 # include "Net.hpp"
@@ -35,38 +36,27 @@ void read_matrix(const char* filename, float* data) {
     }
 }
 
-void read_label(const char* filename, int* data) {
-    string value;
-    int int_value;
-    int num = 0;
-
-    //read data
-    ifstream data_file(filename);
-    if (!data_file.is_open()) {
-        cout << filename << " NOT FOUND" << endl;
-        exit(-1);
-    }
-    while(data_file.good()) {
-        getline(data_file, value, ',');
-        int_value = stoi(value);
-        *(data + num) = int_value;
-        ++num;
-    }
-}
-
 float train_data[784*60000];
 float train_labels[60000];
 
+static timeb TimingMilliSeconds;
+
+void StartOfDuration()
+{
+    ftime(&TimingMilliSeconds);
+}
+
+int EndOfDuration()
+{
+    struct timeb now;
+    ftime(&now);
+    return int( (now.time-TimingMilliSeconds.time)*1000+(now.millitm-TimingMilliSeconds.millitm) );
+}
+
 int main() {
     Net lenet;
-//    float* test_images = new float[784*10000];
-//    int* test_labels = new int[10000];
-//    float train_data[784*60000];
-//    float train_labels[60000];
-    read_matrix("/home/xie/code/PyConvNet/data/mnist/train_images.csv", train_data);
-    read_matrix("/home/xie/code/PyConvNet/data/mnist/train_labels.csv", train_labels);
-//    read_matrix("/home/xie/code/PyConvNet/data/mnist/test_images.csv", test_images);
-//    read_label("/home/xie/code/PyConvNet/data/mnist/test_labels.csv", test_labels);
+    read_matrix("/home/xie/code/PyConvNet/data/mnist/train_image.csv", train_data);
+    read_matrix("/home/xie/code/PyConvNet/data/mnist/train_label.csv", train_labels);
 
     ConvolutionLayer conv1(0, 0, 20, 1, 5, 5, 1, 1);
     lenet.add_layer((Layer*)&conv1);
@@ -167,11 +157,11 @@ int main() {
 
     // log
     Tensor data9(1, 1, 1, 1, 0);
-    Tensor d_data9(batch_size, 1, 1, 1, 0);
+    Tensor output9(batch_size, 1, 1, 1, 0);
 
     std::vector<Tensor> v9;
     v9.push_back(data9);
-    v9.push_back(d_data9);
+    v9.push_back(output9);
 
     lenet.add_data(v0);
     lenet.add_data(v1);
@@ -188,7 +178,7 @@ int main() {
         float* batch_data_ptr = new float[batch_size * 28 * 28];
         float* batch_label_ptr = new float[batch_size];
         memcpy(batch_data_ptr, train_data + i * batch_size * 28 * 28, sizeof(float) * batch_size * 28 * 28);
-//        vector_mul_scalar(batch_data_ptr, 255.0, batch_size * 28 * 28);
+        vector_mul_scalar(batch_data_ptr, 255.0, batch_size * 28 * 28);
         memcpy(batch_label_ptr, train_labels + i * batch_size, sizeof(float) * batch_size);
         boost::shared_array<float> data_batch(batch_data_ptr);
         boost::shared_array<float> label_batch(batch_label_ptr);
@@ -196,6 +186,10 @@ int main() {
         Tensor train_label_tensor(batch_size, 1, 1, 1, 0);
         train_data_tensor.set_data(data_batch);
         train_label_tensor.set_data(label_batch);
+        cout << "iter: " << i << "   ";
+        StartOfDuration();
         lenet.train_batch(train_data_tensor, train_label_tensor);
+        int msec = EndOfDuration();
+        cout << msec << "ms elapse\n";
     }
 }

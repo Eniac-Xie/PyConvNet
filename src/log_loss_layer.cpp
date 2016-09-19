@@ -30,9 +30,9 @@ void LogLoss::forward(std::vector <Tensor> &input, std::vector <Tensor> &output)
     assert(W_in == 1 && H_in == 1);
 
     for( int n = 0; n < N_in; ++n) {
-        float gndth_prob = -logf(*(input_data_ptr + n * size_in + (int)(label_ptr[n])));
-        output_data_ptr[n] = *(input_data_ptr + n * size_in + (int)(label_ptr[n]));
-        loss_ptr[0] += gndth_prob;
+        float gndth_prob = -logf(*(input_data_ptr + n * size_in + (int)(label_ptr[n])) + 1e-6);
+        output_data_ptr[n] = *(input_data_ptr + n * size_in + (int)(label_ptr[n])) + 1e-6;
+        loss_ptr[0] += gndth_prob / N_in;
     }
 }
 
@@ -55,6 +55,6 @@ void LogLoss::backward(std::vector<Tensor> &input,
     assert(W_in == 1 && H_in == 1);
     std::fill_n(d_input_data_ptr, d_input_data.get_size(), 0);
     for(int n = 0; n < N_in; ++n) {
-        *(d_input_data_ptr + n * data_size + (int)(label_ptr[n])) = -1 / output_data_ptr[n];
+        *(d_input_data_ptr + n * data_size + (int)(label_ptr[n])) = -1 / output_data_ptr[n] / N_in;
     }
 }

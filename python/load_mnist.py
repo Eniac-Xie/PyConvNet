@@ -16,7 +16,6 @@ def load_mnist():
     f = gzip.open('../data/mnist/mnist.pkl.gz', 'rb')
     train_set, valid_set, test_set = cPickle.load(f)
     f.close()
-
     train_data = train_set[0]
     train_data = np.reshape(train_data, (-1, 28, 28, 1))
     train_data = np.transpose(train_data, (1, 2, 3, 0)) * 255

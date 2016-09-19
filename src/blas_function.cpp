@@ -10,22 +10,23 @@ void gemm(const CBLAS_TRANSPOSE TransA, const CBLAS_TRANSPOSE TransB,
                 ldb, beta, C, N);
 }
 
-void vector_add(const float* A, const float* B, float* C, const float coeff, const int vector_size) {
-#pragma omp parallel for
+void vector_add(const float* A, const float* B, float* C, const float coeff_a,
+                const float coeff_b, const int vector_size) {
+//#pragma omp parallel for
     for(int i = 0; i < vector_size; ++i) {
-        C[i] = A[i] + B[i] * coeff;
+        C[i] = A[i] * coeff_a + B[i] * coeff_b;
     }
 }
 
 void vector_sub(const float* A, const float* B, float* C, const int vector_size) {
-#pragma omp parallel for
+//#pragma omp parallel for
     for(int i = 0; i < vector_size; ++i) {
         C[i] = A[i] - B[i];
     }
 }
 
 void vector_mul(const float* A, const float* B, float* C, const int vector_size) {
-#pragma omp parallel for
+//#pragma omp parallel for
     for(int i = 0; i < vector_size; ++i) {
         C[i] = A[i] * B[i];
     }
@@ -33,28 +34,28 @@ void vector_mul(const float* A, const float* B, float* C, const int vector_size)
 
 // use openMP to accelerate vector exponential function
 void vector_exp(const float* A, float* B, const int vector_size) {
-#pragma omp parallel for
+//#pragma omp parallel for
     for (int i = 0; i < vector_size; ++i) {
         B[i] = expf(A[i]);
     }
 }
 
 void vector_sub_scalar(float* A, float b, float* B, const int vector_size) {
-#pragma omp parallel for
+//#pragma omp parallel for
     for (int i = 0; i < vector_size; ++i) {
         B[i] = A[i] - b;
     }
 }
 
 void vector_div_scalar(float* A, float b, const int vector_size) {
-#pragma omp parallel for
+//#pragma omp parallel for
     for (int i = 0; i < vector_size; ++i) {
         A[i] = A[i] / b;
     }
 }
 
 void vector_mul_scalar(float* A, float b, const int vector_size) {
-#pragma omp parallel for
+//#pragma omp parallel for
     for (int i = 0; i < vector_size; ++i) {
         A[i] = A[i] * b;
     }

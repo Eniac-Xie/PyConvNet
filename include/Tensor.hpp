@@ -11,7 +11,7 @@
 
 class Tensor {
 public:
-    Tensor(int n, int c, int h, int w, float std) : data(new float[n * c * h * w]){
+    Tensor(int n, int c, int h, int w, float std = 0) : data(new float[n * c * h * w]){
         N = n;
         C = c;
         H = h;
@@ -51,18 +51,10 @@ public:
     int get_size() const {
         return N * C * H * W;
     }
-//    std::vector<float> get_data_vector() const {
-//        std::vector<float> data_vector;
-//        std::copy(data.get(), data.get() + N*C*H*W, data_vector.begin());
-//        return data_vector;
-//    }
-    void add_Tensor(Tensor& t, const float coeff) {
+    void add_Tensor(Tensor& t, const float coeff_a, const float coeff_b) {
         vector_add(this->get_data().get(), t.get_data().get(), this->get_data().get(),
-                   coeff, this->get_size());
+                   coeff_a, coeff_b, this->get_size());
     }
-//    void multi_float(float f) {
-//        vector_mul_scalar(this->get_data().get(), f, this->get_size());
-//    }
     bool operator==( Tensor const& t ) const {
         return std::equal(this->get_data().get(), this->get_data().get() + N * C * H * W,
            t.get_data().get());

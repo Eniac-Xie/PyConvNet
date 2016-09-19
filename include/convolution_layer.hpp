@@ -14,7 +14,9 @@ public:
             filter(filter_num, filter_channel, kernel_h_, kernel_w_, 0.01),
             bias(filter_num, 1, 1, 1, 0),
             d_filter(filter_num, filter_channel, kernel_h_, kernel_w_, 0),
-            d_bias(filter_num, 1, 1, 1, 0) {
+            d_bias(filter_num, 1, 1, 1, 0),
+            pre_update_f(filter_num, filter_channel, kernel_h_, kernel_w_, 0),
+            pre_update_b(filter_num, 1, 1, 1, 0) {
         pad_h = pad_h_;
         pad_w = pad_w_;
         kernel_h = kernel_h_;
@@ -35,6 +37,12 @@ public:
     void set_d_bias(Tensor& d_b) {
         d_bias = d_b;
     };
+//    void set_pre_update_f(Tensor& pre_d_f) {
+//        pre_update_f = pre_d_f;
+//    };
+//    void set_pre_update_b(Tensor& pre_d_b) {
+//        pre_update_b = pre_d_b;
+//    };
     void forward(std::vector<Tensor>& input, std::vector<Tensor>& output );
     void backward(std::vector<Tensor>& input,
                   std::vector<Tensor>& output);
@@ -44,7 +52,9 @@ private:
     Tensor filter;
     Tensor bias;
     Tensor d_filter;
+    Tensor pre_update_f;
     Tensor d_bias;
+    Tensor pre_update_b;
     int pad_h = 0;
     int pad_w = 0;
     int kernel_h = 0;
