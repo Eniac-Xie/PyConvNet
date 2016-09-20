@@ -6,14 +6,11 @@
 
 # include "Layer.hpp"
 # include "Net.hpp"
-# include "Tensor.hpp"
 # include "convolution_layer.hpp"
 # include "relu_layer.hpp"
 # include "pooling_layer.hpp"
 # include "softmax_layer.hpp"
 # include "log_loss_layer.hpp"
-
-# include "blas_function.hpp"
 
 using namespace std;
 
@@ -38,6 +35,8 @@ void read_matrix(const char* filename, float* data) {
 
 float train_data[784*60000];
 float train_labels[60000];
+float test_data[784*10000];
+float test_labels[10000];
 
 static timeb TimingMilliSeconds;
 
@@ -57,6 +56,8 @@ int main() {
     Net lenet;
     read_matrix("/home/xie/code/PyConvNet/data/mnist/train_image.csv", train_data);
     read_matrix("/home/xie/code/PyConvNet/data/mnist/train_label.csv", train_labels);
+    read_matrix("/home/xie/code/PyConvNet/data/mnist/test_image.csv", test_data);
+    read_matrix("/home/xie/code/PyConvNet/data/mnist/test_label.csv", test_labels);
 
     ConvolutionLayer conv1(0, 0, 20, 1, 5, 5, 1, 1);
     lenet.add_layer((Layer*)&conv1);
@@ -174,7 +175,7 @@ int main() {
     lenet.add_data(v8);
     lenet.add_data(v9);
 
-    for(int i = 0; i < (int)(60000 / batch_size); ++i) {
+    for(int i = 0; i < 1; ++i) {
         float* batch_data_ptr = new float[batch_size * 28 * 28];
         float* batch_label_ptr = new float[batch_size];
         memcpy(batch_data_ptr, train_data + i * batch_size * 28 * 28, sizeof(float) * batch_size * 28 * 28);
@@ -191,5 +192,33 @@ int main() {
         lenet.train_batch(train_data_tensor, train_label_tensor);
         int msec = EndOfDuration();
         cout << msec << "ms elapse\n";
+    }
+
+    // do testing
+    for(int i = 0; i < (int)(10000 / batch_size); ++i) {
+        float* batch_data_ptr = new float[batch_size * 28 * 28];
+        float* batch_label_ptr = new float[batch_size];
+        memcpy(batch_data_ptr, test_data + i * batch_size * 28 * 28, sizeof(float) * batch_size * 28 * 28);
+        vector_mul_scalar(batch_data_ptr, 255.0, batch_size * 28 * 28);
+        memcpy(batch_label_ptr, test_labels + i * batch_size, sizeof(float) * batch_size);
+        boost::shared_array<float> data_batch(batch_data_ptr);
+        boost::shared_array<float> label_batch(batch_label_ptr);
+        Tensor test_data_tensor(batch_size, 1, 28, 28, 0);
+        Tensor test_label_tensor(batch_size, 1, 1, 1, 0);
+        Tensor pred_label_tensor(batch_size, 1, 1, 1, 0);
+        test_data_tensor.set_data(data_batch);
+        test_label_tensor.set_data(label_batch);
+        cout << "test iter: " << i << "   ";
+        StartOfDuration();
+        lenet.test_batch(test_data_tensor, pred_label_tensor);
+        int msec = EndOfDuration();
+        float* label_ptr = test_label_tensor.get_data().get();
+        float* pred_ptr = pred_label_tensor.get_data().get();
+        float right_num = 0.f;
+        for(int j = 0; j < batch_size; ++j) {
+            if (label_ptr[j] == pred_ptr[j])
+                ++right_num;
+        }
+        cout << msec << "ms elapse, batch acc: " << right_num / batch_size << endl;
     }
 }
