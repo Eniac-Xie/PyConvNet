@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void read_matrix(const char* filename, float* data) {
+void read_matrix(const char* filename, float* data, float coeff=1) {
     string value;
     float f_value;
     int num = 0;
@@ -21,20 +21,17 @@ void read_matrix(const char* filename, float* data) {
     while(data_file.good()) {
         getline(data_file, value, ',');
         f_value = stof(value);
-        *(data + num) = f_value;
+        *(data + num) = f_value * coeff;
         ++num;
     }
 }
 
 void get_sample_data(float* X, float* L, float* Y, float* d_X) {
-//    read_matrix("../../test/sample_data/SoftMaxLogLoss/X.csv", X);
-//    read_matrix("../../test/sample_data/SoftMaxLogLoss/L.csv", L);
-//    read_matrix("../../test/sample_data/SoftMaxLogLoss/Y.csv", Y);
-//    read_matrix("../../test/sample_data/SoftMaxLogLoss/d_X.csv", d_X);
-    read_matrix("/home/xie/code/PyConvNet/test/sample_data/SoftMaxLogLoss/X.csv", X);
-    read_matrix("/home/xie/code/PyConvNet/test/sample_data/SoftMaxLogLoss/L.csv", L);
-    read_matrix("/home/xie/code/PyConvNet/test/sample_data/SoftMaxLogLoss/Y.csv", Y);
-    read_matrix("/home/xie/code/PyConvNet/test/sample_data/SoftMaxLogLoss/d_X.csv", d_X);
+    read_matrix("../../test/sample_data/SoftMaxLogLoss/X.csv", X);
+    read_matrix("../../test/sample_data/SoftMaxLogLoss/L.csv", L);
+    // the test data is unnormalized, so we need add a coeff to normalize loss and grads
+    read_matrix("../../test/sample_data/SoftMaxLogLoss/Y.csv", Y, 0.01);
+    read_matrix("../../test/sample_data/SoftMaxLogLoss/d_X.csv", d_X, 0.01);
 }
 
 bool check_eq(float* pred, float* gndth, int size) {

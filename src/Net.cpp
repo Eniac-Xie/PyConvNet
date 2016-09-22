@@ -7,6 +7,10 @@ Net::Net() {
     this->lr = 0.0001;
 }
 
+void Net::set_lr(float lr) {
+    this->lr = lr;
+}
+
 void Net::add_layer(Layer* l) {
     layers_.push_back(l);
 }
@@ -53,8 +57,8 @@ void Net::train_batch(Tensor& train_data, Tensor& train_label) {
 
 void Net::test_batch(Tensor &test_data, Tensor& pred_label) {
     this->data_[0][0] = test_data;
-    this->forward_net(this->layers_.size() - 2);
-    Tensor result = this->data_[this->data_.size() - 2][0];
+    this->forward_net(0, this->layers_.size() - 2);
+    Tensor result = this->data_[this->data_.size() - 3][0];
     int batch_size = result.get_N();
     int channel_size = result.get_C();
     assert(result.get_H() == 1 && result.get_W() == 1);

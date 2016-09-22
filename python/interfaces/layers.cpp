@@ -1,4 +1,8 @@
 # include <vector>
+# include <boost/python.hpp>
+# include <boost/shared_array.hpp>
+# include <numpy/arrayobject.h>
+# include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
 # include "convolution_layer.hpp"
 # include "pooling_layer.hpp"
@@ -6,12 +10,6 @@
 # include "Tensor.hpp"
 
 typedef std::vector<Tensor> TensorVec;
-//typedef std::vector<float> floatVec;
-
-#include <boost/python.hpp>
-#include <boost/shared_array.hpp>
-#include <numpy/arrayobject.h>
-#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
 void init_from_numpy(Tensor& tensor_input, boost::python::object numpy_data) {
     PyArrayObject* data_arr = reinterpret_cast<PyArrayObject*>(numpy_data.ptr());

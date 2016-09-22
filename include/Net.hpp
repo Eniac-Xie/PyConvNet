@@ -9,6 +9,7 @@ class Net {
 public:
     Net();
     void add_layer(Layer* l);
+    void set_lr(float lr);
     void add_param_layer_id(int idx);
     void add_data(std::vector<Tensor>& t);
     void forward_net(int start=-1, int end=-1);

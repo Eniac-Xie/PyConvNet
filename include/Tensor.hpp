@@ -23,7 +23,6 @@ public:
         }
     }
     Tensor(const Tensor& T) {
-//        std::cout << "Tensor copy constructor" << std::endl;
         N = T.get_N();
         C = T.get_C();
         H = T.get_H();
@@ -73,20 +72,6 @@ public:
         }
         return *this;
     }
-//    Tensor operator+(Tensor& t) {
-//        vector_add(this->get_data().get(), t.get_data().get(), this->get_data().get(),
-//                   this->get_size());
-//        return *this;
-//    }
-//    Tensor operator-(Tensor& t) {
-//        vector_sub(this->get_data().get(), t.get_data().get(), this->get_data().get(),
-//                   this->get_size());
-//        return *this;
-//    }
-//    Tensor operator*(float mul) {
-//        vector_mul_scalar(this->get_data().get(), mul, this->get_size());
-//        return *this;
-//    }
 private:
     boost::shared_array<float> data;
     int N, C, H, W;
