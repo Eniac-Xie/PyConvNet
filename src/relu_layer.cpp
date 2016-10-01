@@ -29,11 +29,6 @@ void ReLULayer::backward(std::vector<Tensor> &input, std::vector<Tensor> &output
     float* input_data_ptr = input_data.get_data().get();
     float* d_input_data_ptr = d_input_data.get_data().get();
     float* d_output_data_ptr = d_output_data.get_data().get();
-
-    int N_in = d_input_data.get_N();
-    int C_in = d_input_data.get_C();
-    int H_in = d_input_data.get_H();
-    int W_in = d_input_data.get_W();
     int data_size = d_input_data.get_size();
 
     for(int index = 0; index < data_size; ++index) {

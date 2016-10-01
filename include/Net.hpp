@@ -8,7 +8,7 @@
 class Net {
 public:
     Net();
-    void add_layer(Layer* l);
+    void add_layer(std::shared_ptr<Layer> l);
     void set_lr(float lr);
     void add_param_layer_id(int idx);
     void add_data(std::vector<Tensor>& t);
@@ -18,7 +18,7 @@ public:
     void train_batch(Tensor& train_data, Tensor& train_label);
     void test_batch(Tensor& test_data, Tensor& pred_label);
 private:
-    std::vector<Layer*> layers_; // n layers
+    std::vector<std::shared_ptr<Layer>> layers_; // n layers
     std::vector<std::vector<Tensor>> data_; // data and d_data
     std::vector<int> params_layer_id;
     float lr;

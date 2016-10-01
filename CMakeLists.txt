@@ -13,12 +13,12 @@ find_library(OpenBLAS_LIB NAMES openblas PATHS ${Open_BLAS_LIB_SEARCH_PATHS})
 # find_package(PythonInterp)
 # find_package(PythonLibs)
 # find_package(Boost COMPONENTS python)
-#link_libraries(${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
+# link_libraries(${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
 link_libraries(${Boost_LIBRARIES})
 
-#set(NUMPY_INCLUDE_DIRS $ENV{ANACONDA_HOME}/lib/python2.7/site-packages/numpy/core/include)
+# set(NUMPY_INCLUDE_DIRS $ENV{ANACONDA_HOME}/lib/python2.7/site-packages/numpy/core/include)
 
-#include_directories( include/ ${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS} ${NUMPY_INCLUDE_DIRS})
+# include_directories( include/ ${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS} ${NUMPY_INCLUDE_DIRS})
 include_directories( include/ ${Boost_INCLUDE_DIRS})
 
 set(SOURCE_FILES include/Layer.hpp experiment/mnist/mnist_demo.cpp include/im2col.hpp include/convolution_layer.hpp

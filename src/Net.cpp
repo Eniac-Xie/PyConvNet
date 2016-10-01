@@ -11,7 +11,7 @@ void Net::set_lr(float lr) {
     this->lr = lr;
 }
 
-void Net::add_layer(Layer* l) {
+void Net::add_layer(std::shared_ptr<Layer> l) {
     layers_.push_back(l);
 }
 

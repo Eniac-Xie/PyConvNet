@@ -1,14 +1,17 @@
 #ifndef PYCONVNET_BLAS_FUNCTION_HPP
 #define PYCONVNET_BLAS_FUNCTION_HPP
+
 extern "C"
 {
 # include "cblas.h"
 }
 
+// matrix multiplication
 void gemm(const CBLAS_TRANSPOSE TransA, const CBLAS_TRANSPOSE TransB,
           const int M, const int N, const int K, const float alpha,
           const float* A, const float* B, const float beta, float* C);
 
+// vector operation
 void vector_add(const float* A, const float* B, float* C, const float coeff_a,
                 const float coeff_b, const int vector_size);
 

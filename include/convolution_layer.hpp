@@ -25,6 +25,7 @@ public:
         stride_w = stride_w_;
 
     };
+    // set_* function is used while testing layer
     void set_filter(Tensor& f) {
         filter = f;
     };
@@ -37,6 +38,7 @@ public:
     void set_d_bias(Tensor& d_b) {
         d_bias = d_b;
     };
+
     void forward(std::vector<Tensor>& input, std::vector<Tensor>& output );
     void backward(std::vector<Tensor>& input,
                   std::vector<Tensor>& output);

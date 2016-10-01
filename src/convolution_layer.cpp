@@ -2,9 +2,7 @@
 #include <algorithm>
 #include <assert.h>
 #include "convolution_layer.hpp"
-#include "Tensor.hpp"
 #include "im2col.hpp"
-#include "blas_function.hpp"
 
 void ConvolutionLayer::forward(std::vector<Tensor>& input,
                                std::vector<Tensor>& output ) {

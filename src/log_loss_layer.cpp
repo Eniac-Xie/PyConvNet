@@ -1,5 +1,4 @@
 # include <algorithm>
-# include <cmath>
 # include <iostream>
 
 # include "log_loss_layer.hpp"

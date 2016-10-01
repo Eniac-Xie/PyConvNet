@@ -3,15 +3,9 @@
 
 #include <cstring>
 
-template <typename Dtype>
-void im2col(const Dtype* data_input, const int height, const int width, const int channels,
-                const int kernel_h, const int kernel_w, const int pad_h, const int pad_w,
-                const int stride_h, const int stride_w, Dtype* data_output);
-
-template <typename Dtype>
-void im2col(const Dtype* data_input, const int height, const int width, const int channels,
+void im2col(const float* data_input, const int height, const int width, const int channels,
             const int kernel_h, const int kernel_w, const int pad_h, const int pad_w,
-            const int stride_h, const int stride_w, Dtype* data_output) {
+            const int stride_h, const int stride_w, float* data_output) {
     int h_outout = (height + 2 * pad_h - kernel_h) / stride_h + 1;
     int w_output = (width + 2 * pad_w - kernel_w) / stride_w + 1;
     int output_width = h_outout * w_output;
@@ -43,16 +37,9 @@ void im2col(const Dtype* data_input, const int height, const int width, const in
     }
 }
 
-
-template <typename Dtype>
-void col2im(const Dtype* data_col, const int height, const int width, const int channels,
+void col2im(const float* data_col, const int height, const int width, const int channels,
             const int kernel_h, const int kernel_w, const int pad_h, const int pad_w,
-            const int stride_h, const int stride_w, Dtype* data_input);
-
-template <typename Dtype>
-void col2im(const Dtype* data_col, const int height, const int width, const int channels,
-            const int kernel_h, const int kernel_w, const int pad_h, const int pad_w,
-            const int stride_h, const int stride_w, Dtype* data_original) {
+            const int stride_h, const int stride_w, float* data_original) {
     memset(data_original, 0, sizeof(float) * height * width * channels);
     int data_col_height = channels * kernel_h * kernel_w;
     int data_col_width = ((height + 2 * pad_h - kernel_h) / stride_h + 1) *
